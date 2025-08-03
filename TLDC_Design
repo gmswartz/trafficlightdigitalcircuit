@@ -1,0 +1,53 @@
+// DESIGN FOR TRAFFIC LIGHT DIGITAL CIRCUIT
+
+module BP_FSM(clk, rst, m, b0, b1, b2);
+	input clk, rst;
+	input m;
+	output reg b0,b1, b2;
+
+  localparam [2:0] BP_Init = 6,
+  					BP_Out5 = 5,
+  					BP_Out4 = 4,
+  					BP_Out3 = 3,
+  					BP-Out2 = 2;
+  					BP_Out1 = 1;
+  					BP_Out0 = 0;
+
+  	reg [2:0] BP_State;
+	
+  	always @(posedge clk) begin
+		if (rst) begin
+			// Initial state
+			BP_State = BP_Init;
+		end 
+      	else begin
+			// State transitions
+          case (BP_State)
+            BP_Init: begin
+              if (!m) begin
+                BP_State = BP_Init;
+              end
+              else if (m) begin
+                BP_State = BP_Out5;
+              end 
+            end
+            
+            BP_Out5: begin
+              BP_State = BP_Out4;
+            end
+            
+            BP_Out4: begin
+              BP_State = BP_Out3;
+            end
+            
+            BP_Out3: begin
+              BP_State = BP_Out2;
+            end
+            
+            BP_Out2: begin
+              BP_State = BP_Out1;
+            end
+            
+            BP_Out1: begin
+              BP_State = BP_Out0;
+            end

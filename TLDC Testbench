@@ -1,0 +1,39 @@
+// TESTBENCH FOR TRAFFIC LIGHT DIGITAL CIRCUIT
+module BP_FSM_Testbench();
+  
+  reg clk_tb, rst_tb, m_tb;
+  wire b0_tb, b1_tb, b2_tb;
+  
+  localparam CLK_Period = 1;
+  
+  BP_FSM BP_FSM_tb(clk_tb, rst_tb, m_tb, b0_tb, b2_tb, b2_tb);
+  
+  	task toggle_clk;
+      begin
+        clk_tb = ~clk_tb; #CLK_PERIOD;
+      end
+    endtask
+  
+initial begin
+    // dump waves
+    $dumpfile("dump.vcd");
+    $dumpvars(1);
+    
+    clk_tb = 0;
+    
+    for (int i=0; i < 20; i++) begin
+      	#CLK_PERIOD toggle_clk;
+    end
+    
+  end
+  
+initial begin
+    
+  rst_tb = 1;
+  m_tb = 0;
+  #CLK_PERIOD rst_tb = 0;
+  #CLK_PERIOD m_tb = 1;
+end
+  
+endmodule
+    
